@@ -16,7 +16,7 @@ export default function ReelCard({
       <div className="p-4 border-b border-zinc-100 flex justify-between items-start bg-zinc-50/50">
         <div>
           <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 bg-white border border-zinc-200 px-2 py-1 rounded-md">
-            {interaction.platform}
+            {interaction.source}
           </span>
           <h3 className="text-zinc-900 font-bold mt-2 leading-snug line-clamp-2">
             {interaction.title}

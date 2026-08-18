@@ -74,6 +74,14 @@ class GoalAlignment(BaseModel):
     reason: str = ""
     mismatch_detected: bool = False
 
+class KnowledgeGap(BaseModel):
+    topic: str
+    reason: str
+
+class GoalMilestone(BaseModel):
+    topic: str
+    status: Literal["Observed", "Exploring", "Learning", "Next", "Future"]
+
 class InterestProfile(BaseModel):
     primaryInterest: PrimaryInterest
     supportingInterests: List[Interest] = []
@@ -135,6 +143,8 @@ class RecommendationResponse(BaseModel):
     # Goal
     user_goal: Optional[UserGoal] = None
     goal_alignment: Optional[GoalAlignment] = None
+    knowledge_gap: Optional[KnowledgeGap] = None
+    goal_progress: List[GoalMilestone] = []
     # Direction
     recommendation_direction: Optional[str] = None
     # Anti-hype

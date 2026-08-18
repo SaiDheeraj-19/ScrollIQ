@@ -9,6 +9,8 @@ load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
+import asyncio
+
 async def get_structured_response(system_prompt: str, user_prompt: str, response_format: dict = None):
     messages = [
         {"role": "system", "content": system_prompt},
@@ -18,46 +20,34 @@ async def get_structured_response(system_prompt: str, user_prompt: str, response
     if response_format:
         messages[0]["content"] += f"\n\nYou MUST return a valid JSON object adhering to this schema: {json.dumps(response_format)}. Do not include any markdown formatting like ```json."
 
-    # Try Groq first
-    if GROQ_API_KEY:
-        print("Attempting Groq API...")
-        try:
-            groq_client = AsyncOpenAI(
-                api_key=GROQ_API_KEY, 
-                base_url="https://api.groq.com/openai/v1",
-                timeout=20.0
-            )
-            response = await groq_client.chat.completions.create(
-                model="llama-3.1-8b-instant", 
-                messages=messages,
-                response_format={"type": "json_object"},
-                temperature=0.1,
-                max_tokens=8000
-            )
-            print("Groq API succeeded.")
-            return json.loads(response.choices[0].message.content)
-        except Exception as e:
-            print(f"Groq API failed: {e}. Falling back to OpenRouter...")
+    if not GROQ_API_KEY:
+        raise ValueError("GROQ_API_KEY is not set.")
 
-    # Fallback to OpenRouter
-    if OPENROUTER_API_KEY:
+    groq_client = AsyncOpenAI(
+        api_key=GROQ_API_KEY, 
+        base_url="https://api.groq.com/openai/v1",
+        timeout=40.0
+    )
+
+    max_retries = 3
+    for attempt in range(max_retries):
         try:
-            or_client = AsyncOpenAI(
-                api_key=OPENROUTER_API_KEY, 
-                base_url="https://openrouter.ai/api/v1",
-                timeout=40.0
-            )
-            response = await or_client.chat.completions.create(
-                model="meta-llama/llama-3.1-70b-instruct",
+            response = await groq_client.chat.completions.create(
+                model="openai/gpt-oss-120b",
                 messages=messages,
                 response_format={"type": "json_object"},
                 temperature=0.1,
-                max_tokens=8000
+                max_tokens=2000
             )
             return json.loads(response.choices[0].message.content)
         except Exception as e:
-            print(f"OpenRouter API failed: {e}")
+            err_str = str(e).lower()
+            if "rate_limit_exceeded" in err_str or "429" in err_str:
+                if attempt < max_retries - 1:
+                    sleep_time = 14
+                    print(f"Rate limit hit, sleeping for {sleep_time}s...")
+                    await asyncio.sleep(sleep_time)
+                    continue
+            print(f"Groq API failed: {e}")
             raise e
-            
-    raise ValueError("Neither GROQ_API_KEY nor OPENROUTER_API_KEY worked.")
 

@@ -2,7 +2,8 @@ import json
 from typing import List, Tuple, Dict, Optional
 from models.schemas import (
     CandidateReel, InterestProfile, RecommendationResponse, 
-    UnifiedInteraction, UserGoal, GoalAlignment, ScoreBreakdown, RejectedAlternative
+    UnifiedInteraction, UserGoal, GoalAlignment, ScoreBreakdown, RejectedAlternative,
+    KnowledgeGap, GoalMilestone
 )
 from services.ai_service import get_structured_response
 from services.quality_engine import evaluate_quality
@@ -187,6 +188,70 @@ def score_candidate(
     )
     
     return total, breakdown
+
+
+async def infer_knowledge_gap_and_progress(
+    user_goal: Optional[UserGoal],
+    primary_interest: str,
+    recent_interactions: List[UnifiedInteraction],
+    recommendation_direction: str
+) -> Tuple[Optional[KnowledgeGap], List[GoalMilestone]]:
+    if not user_goal or not user_goal.goal:
+        return None, []
+        
+    system_prompt = """
+    You are an AI generating a learning roadmap and identifying a Knowledge Gap for a student.
+    Given their Stated Goal, their inferred Latent Interest, the topics they just watched, and their Next Recommendation Direction:
+    1. Identify a 'Knowledge Gap' (the missing skill between their current behavior and their goal, usually the Next Direction).
+    2. Generate a 5 to 7 step 'Goal Progress' roadmap toward their Stated Goal.
+       - Use specific technical topics for the steps.
+       - Assign EXACTLY ONE of these statuses to each step: "Observed", "Exploring", "Learning", "Next", "Future".
+       - The user's recently watched topics should map to "Observed", "Exploring", or "Learning".
+       - The Next Direction MUST map to "Next".
+       - Advanced topics beyond the Next Direction map to "Future".
+    """
+    
+    recent_topics = [i.title for i in recent_interactions[-3:]]
+    user_prompt = f"""
+    User Goal: {user_goal.goal}
+    Latent Interest: {primary_interest}
+    Recently Watched Topics: {recent_topics}
+    Next Recommended Direction: {recommendation_direction}
+    """
+    
+    schema = {
+        "knowledge_gap": {
+            "topic": "string",
+            "reason": "string"
+        },
+        "goal_progress": [
+            {
+                "topic": "string",
+                "status": "string"
+            }
+        ]
+    }
+    
+    try:
+        response = await get_structured_response(system_prompt, user_prompt, response_format=schema)
+        
+        kg_data = response.get("knowledge_gap", {})
+        gap = KnowledgeGap(
+            topic=kg_data.get("topic", recommendation_direction),
+            reason=kg_data.get("reason", "This is the next logical step toward your goal.")
+        )
+        
+        progress = []
+        for p in response.get("goal_progress", []):
+            status = p.get("status", "Future")
+            if status not in ["Observed", "Exploring", "Learning", "Next", "Future"]:
+                status = "Future"
+            progress.append(GoalMilestone(topic=p.get("topic", "Unknown"), status=status))
+            
+        return gap, progress
+    except Exception as e:
+        print(f"Failed to infer knowledge gap: {e}")
+        return None, []
 
 
 async def rank_candidates_and_recommend(

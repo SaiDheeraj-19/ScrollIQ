@@ -133,7 +133,9 @@ export default function WatchFeedPage() {
             {feed.map((video, idx) => (
               <div 
                 key={idx} 
-                ref={el => videoRefs.current[video.videoId] = el}
+                ref={(el) => {
+                  videoRefs.current[video.videoId] = el;
+                }}
                 data-video-id={video.videoId}
                 data-video-title={video.title}
                 className="w-full h-full snap-start snap-always relative flex items-center justify-center overflow-hidden"

@@ -39,16 +39,7 @@ async def infer_interest_dna(
         "supportingInterests": [
             {
                 "name": "string",
-                "score": 0.0,
-                "evidence": [
-                    {
-                        "content_id": "string",
-                        "surface_topic": "string",
-                        "semantic_connection": "string",
-                        "observed_signal": "string",
-                        "strength": 0.0
-                    }
-                ]
+                "score": 0.0
             }
         ],
         "evidence": [

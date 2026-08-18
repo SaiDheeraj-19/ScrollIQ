@@ -109,12 +109,33 @@ export default function RecommendationCard({ recommendation }: { recommendation:
             </div>
           )}
 
-          <Link 
-            href="/app/watch"
-            className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm"
-          >
-            Watch Feed <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex gap-4">
+            <Link 
+              href="/app/watch"
+              className="flex-1 bg-zinc-900 hover:bg-zinc-800 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm"
+            >
+              Watch Feed <ArrowRight className="w-4 h-4" />
+            </Link>
+            
+            {!showBaseline && (
+              <button 
+                onClick={() => {
+                  setFeedbackState('submitting');
+                  setTimeout(() => setFeedbackState('submitted'), 1500);
+                }}
+                disabled={feedbackState !== 'idle'}
+                className={`flex-1 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm border ${
+                  feedbackState === 'submitted' 
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-700' 
+                    : 'bg-white hover:bg-zinc-50 border-zinc-200 text-zinc-900'
+                }`}
+              >
+                {feedbackState === 'idle' && 'Verify Proof of Work'}
+                {feedbackState === 'submitting' && 'Generating Quiz...'}
+                {feedbackState === 'submitted' && 'Knowledge Verified!'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

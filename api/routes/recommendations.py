@@ -5,7 +5,8 @@ from models.schemas import RecommendRequest, RecommendationResponse, FeedbackReq
 from services.recommendation_engine import (
     rank_candidates_and_recommend, 
     generate_recommendation_directions,
-    calculate_goal_alignment
+    calculate_goal_alignment,
+    infer_knowledge_gap_and_progress
 )
 from services.baseline_recommender import BaselineRecommender
 from services.tavily_service import search_deep_dive_article
@@ -113,10 +114,18 @@ async def get_recommendation(request: RecommendRequest):
         
         article_task = search_deep_dive_article(target_direction, user_goal.goal if user_goal else None)
         
-        recommendation, article = await asyncio.gather(recommendation_task, article_task)
+        gap_task = infer_knowledge_gap_and_progress(
+            user_goal, request.profile.primaryInterest.name, request.recent_interactions, target_direction
+        )
         
-        # Attach the article
+        recommendation, article, (gap, progress) = await asyncio.gather(recommendation_task, article_task, gap_task)
+        
+        # Attach the article, gap, and progress
         recommendation.recommendedArticle = article
+        if gap:
+            recommendation.knowledge_gap = gap
+        if progress:
+            recommendation.goal_progress = progress
         
         # 4. Get Baseline (naive keyword) recommendation for comparison
         baseline_rec = baseline_engine.generate_recommendation(request.recent_interactions, candidates)

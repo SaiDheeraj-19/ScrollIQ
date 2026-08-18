@@ -81,6 +81,16 @@ export interface GoalAlignment {
   mismatch_detected: boolean;
 }
 
+export interface KnowledgeGap {
+  topic: string;
+  reason: string;
+}
+
+export interface GoalMilestone {
+  topic: string;
+  status: "Observed" | "Exploring" | "Learning" | "Next" | "Future";
+}
+
 export interface InterestProfile {
   primaryInterest: PrimaryInterest;
   supportingInterests: Interest[];
@@ -133,6 +143,8 @@ export interface RecommendationResponse {
   // Goal
   user_goal?: UserGoal;
   goal_alignment?: GoalAlignment;
+  knowledge_gap?: KnowledgeGap;
+  goal_progress?: GoalMilestone[];
   recommendation_direction?: string;
   // Anti-hype
   antiHypeFilterApplied: boolean;
