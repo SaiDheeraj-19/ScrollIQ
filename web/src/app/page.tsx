@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Moon, Star, ArrowRight, Activity, Network, ShieldAlert } from "lucide-react";
+import { Moon, Star, ArrowRight, Activity, Network, ShieldAlert, MousePointerClick, Brain, TrendingUp, Dna, Puzzle, Compass, Sparkles, ChevronRight } from "lucide-react";
 
 export default function LandingPage() {
   return (
@@ -108,6 +108,48 @@ export default function LandingPage() {
                 <span className="text-xs font-medium text-zinc-500">{tech.name}</span>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Pipeline Section */}
+        <section className="mb-40 pt-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 mb-4">How ScrollIQ Works</h2>
+            <p className="text-lg text-zinc-500 max-w-2xl mx-auto">
+              The end-to-end pipeline that transforms mindless scrolling into actionable career recommendations.
+            </p>
+          </div>
+
+          <div className="relative max-w-6xl mx-auto px-4">
+            <div className="flex flex-wrap justify-center gap-y-10 gap-x-2 md:gap-x-4 relative z-10">
+              {[
+                { name: "Student Interactions", icon: MousePointerClick, color: "text-blue-500" },
+                { name: "Content Understanding", icon: Brain, color: "text-indigo-500" },
+                { name: "Behavior Analysis", icon: TrendingUp, color: "text-violet-500" },
+                { name: "Interest Inference", icon: Network, color: "text-purple-500" },
+                { name: "Interest Profile", icon: Dna, color: "text-fuchsia-500" },
+                { name: "Knowledge Gap", icon: Puzzle, color: "text-pink-500" },
+                { name: "Career Direction", icon: Compass, color: "text-rose-500" },
+                { name: "Recommendation", icon: Sparkles, color: "text-[#FF4F4F]" },
+              ].map((step, i) => (
+                <React.Fragment key={i}>
+                  <div className="flex flex-col items-center text-center w-28 md:w-32 group">
+                    <div className="w-16 h-16 bg-white border border-zinc-200 shadow-sm rounded-2xl flex items-center justify-center mb-4 relative transition-all group-hover:scale-105 group-hover:shadow-md group-hover:border-zinc-300">
+                      <step.icon className={`w-6 h-6 ${step.color}`} />
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-zinc-900 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-sm">
+                        {i + 1}
+                      </div>
+                    </div>
+                    <h4 className="text-xs md:text-sm font-bold text-zinc-700 leading-tight">{step.name}</h4>
+                  </div>
+                  {i < 7 && (
+                    <div className="hidden lg:flex text-zinc-300 items-center justify-center mt-[-2rem]">
+                      <ChevronRight className="w-6 h-6" />
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         </section>
 
