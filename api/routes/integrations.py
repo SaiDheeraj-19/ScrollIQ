@@ -52,5 +52,6 @@ async def youtube_callback(code: str):
     access_token = token_data.get("access_token")
     
     # Redirect back to the frontend onboarding flow with the access token
-    frontend_url = f"http://localhost:3000/onboarding?youtube_token={access_token}"
+    frontend_base = os.getenv("FRONTEND_URL", "http://localhost:3000")
+    frontend_url = f"{frontend_base}/onboarding?youtube_token={access_token}"
     return RedirectResponse(frontend_url)
