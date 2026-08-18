@@ -10,8 +10,19 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 import asyncio
+import hashlib
+
+# Global cache to boost efficiency by avoiding duplicate LLM calls
+LLM_CACHE = {}
+
+def _get_cache_key(system_prompt: str, user_prompt: str, response_format: dict) -> str:
+    key_str = f"{system_prompt}||{user_prompt}||{json.dumps(response_format or {})}"
+    return hashlib.md5(key_str.encode()).hexdigest()
 
 async def get_structured_response(system_prompt: str, user_prompt: str, response_format: dict = None):
+    cache_key = _get_cache_key(system_prompt, user_prompt, response_format)
+    if cache_key in LLM_CACHE:
+        return LLM_CACHE[cache_key]
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt}
@@ -39,7 +50,9 @@ async def get_structured_response(system_prompt: str, user_prompt: str, response
                 temperature=0.1,
                 max_tokens=2000
             )
-            return json.loads(response.choices[0].message.content)
+            result = json.loads(response.choices[0].message.content)
+            LLM_CACHE[cache_key] = result
+            return result
         except Exception as e:
             err_str = str(e).lower()
             if "rate_limit_exceeded" in err_str or "429" in err_str:
