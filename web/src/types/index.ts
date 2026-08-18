@@ -113,6 +113,12 @@ export interface RejectedAlternative {
   reason: string;
 }
 
+export interface RecommendedArticle {
+  title: string;
+  url: string;
+  content: string;
+}
+
 export interface RecommendationResponse {
   currentReel: string;
   currentReelTitle?: string;
@@ -143,4 +149,6 @@ export interface RecommendationResponse {
   surface_topics: string[];
   // Baseline
   baseline?: RecommendationResponse;
+  // Deep Dive Article
+  recommendedArticle?: RecommendedArticle;
 }

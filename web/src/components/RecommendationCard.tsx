@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RecommendationResponse } from '@/types';
-import { Zap, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Zap, AlertTriangle, ArrowRight, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 
 export default function RecommendationCard({ recommendation }: { recommendation: RecommendationResponse }) {
@@ -87,6 +87,24 @@ export default function RecommendationCard({ recommendation }: { recommendation:
                 <p className="text-xs text-amber-700">
                   {activeRec.whyNot || `Rejected candidates: ${activeRec.rejectedCandidates.join(', ')}`}
                 </p>
+              </div>
+            </div>
+          )}
+
+          {!showBaseline && activeRec.recommendedArticle && (
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex gap-3 items-start mb-6">
+              <BookOpen className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-bold text-blue-900 mb-1">Deep Dive Article</p>
+                <p className="text-xs text-blue-800 font-medium mb-1 line-clamp-1">{activeRec.recommendedArticle.title}</p>
+                <a 
+                  href={activeRec.recommendedArticle.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-xs text-blue-600 hover:text-blue-700 underline underline-offset-2 flex items-center gap-1"
+                >
+                  Read full article <ArrowRight className="w-3 h-3" />
+                </a>
               </div>
             </div>
           )}

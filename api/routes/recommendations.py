@@ -8,6 +8,8 @@ from services.recommendation_engine import (
     calculate_goal_alignment
 )
 from services.baseline_recommender import BaselineRecommender
+from services.tavily_service import search_deep_dive_article
+import asyncio
 
 router = APIRouter()
 baseline_engine = BaselineRecommender()
@@ -94,8 +96,8 @@ async def get_recommendation(request: RecommendRequest):
         if not candidates:
             raise HTTPException(status_code=500, detail="No candidates available")
             
-        # 3. Rank candidates with the 5-factor weighted formula
-        recommendation = await rank_candidates_and_recommend(
+        # 3. Rank candidates and fetch Deep Dive Article concurrently
+        recommendation_task = rank_candidates_and_recommend(
             request.profile, 
             candidates, 
             request.recent_interactions, 
@@ -103,6 +105,13 @@ async def get_recommendation(request: RecommendRequest):
             user_goal=user_goal,
             goal_alignment=goal_alignment
         )
+        
+        article_task = search_deep_dive_article(target_direction, user_goal.goal if user_goal else None)
+        
+        recommendation, article = await asyncio.gather(recommendation_task, article_task)
+        
+        # Attach the article
+        recommendation.recommendedArticle = article
         
         # 4. Get Baseline (naive keyword) recommendation for comparison
         baseline_rec = baseline_engine.generate_recommendation(request.recent_interactions, candidates)

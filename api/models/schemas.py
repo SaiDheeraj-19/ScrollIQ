@@ -115,6 +115,11 @@ class RejectedAlternative(BaseModel):
     title: str
     reason: str
 
+class RecommendedArticle(BaseModel):
+    title: str
+    url: str
+    content: str
+
 class RecommendationResponse(BaseModel):
     # Core output contract fields
     currentReel: str
@@ -148,6 +153,8 @@ class RecommendationResponse(BaseModel):
     surface_topics: List[str] = []
     # Baseline comparison
     baseline: Optional["RecommendationResponse"] = None
+    # Deep Dive Article (via Tavily)
+    recommendedArticle: Optional[RecommendedArticle] = None
 
 class AnalyzeRequest(BaseModel):
     interactions: List[UnifiedInteraction]

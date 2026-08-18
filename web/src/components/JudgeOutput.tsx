@@ -47,6 +47,10 @@ RECOMMENDED TECH REEL:
   Channel: ${recommendation.channel || "—"}
   URL: ${recommendation.videoUrl || (recommendation.videoId ? `https://youtube.com/shorts/${recommendation.videoId}` : "—")}
 
+DEEP DIVE ARTICLE:
+  ${recommendation.recommendedArticle ? recommendation.recommendedArticle.title : "—"}
+  URL: ${recommendation.recommendedArticle ? recommendation.recommendedArticle.url : "—"}
+
 CATEGORY: ${recommendation.category}
 
 WHY THIS RECOMMENDATION:
@@ -130,6 +134,19 @@ SCORE BREAKDOWN:
           <span className="text-white ml-4 font-bold">{recommendation.recommendedTechReel}</span>
           {recommendation.videoUrl && (
             <><br /><a href={recommendation.videoUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 ml-4 underline text-xs">{recommendation.videoUrl}</a></>
+          )}
+        </div>
+
+        <div><span className="text-slate-500">DEEP DIVE ARTICLE (via Tavily):</span><br />
+          {recommendation.recommendedArticle ? (
+            <>
+              <span className="text-zinc-300 ml-4 font-bold">{recommendation.recommendedArticle.title}</span><br />
+              <a href={recommendation.recommendedArticle.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 ml-4 underline text-xs">
+                {recommendation.recommendedArticle.url}
+              </a>
+            </>
+          ) : (
+            <span className="text-zinc-500 ml-4">—</span>
           )}
         </div>
 
