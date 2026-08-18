@@ -17,8 +17,12 @@ async def generate_recommendation_directions(
     system_prompt = """
     You are an AI generating learning directions for a student.
     Given their primary latent interest AND stated goal, generate 3 useful specific adjacent technical learning directions.
+    
+    CRITICAL RULE: The User's Stated Goal is the ABSOLUTE PRIMARY DIRECTIVE. Your generated learning directions MUST be direct subsets, skills, or requirements of their STATED GOAL.
+    If their latent interest is unrelated to their goal (e.g., 'gaming' vs goal 'AI Engineer'), IGNORE the latent interest and ONLY focus on their STATED GOAL.
     These should NOT simply repeat the primary interest.
     They should be the NEXT USEFUL LEARNING STEPS.
+    
     Example: 'Software Engineering' + goal 'Backend Dev' -> ['System Design', 'Distributed Systems', 'Cloud Deployment']
     Example: 'AI/ML Engineering' + goal 'AI Engineer' -> ['LLM Engineering', 'RAG Systems', 'ML Infrastructure']
     """
