@@ -64,3 +64,42 @@ class YouTubeProvider(ContentProvider):
             interactions.append(interaction)
             
         return interactions
+
+    async def search_shorts(self, query: str, max_results: int = 10) -> List[dict]:
+        """Searches for YouTube Shorts matching a query."""
+        if not self.access_token:
+            print("No YouTube access token provided. Returning empty list.")
+            return []
+            
+        url = "https://www.googleapis.com/youtube/v3/search"
+        params = {
+            "part": "snippet",
+            "q": query,
+            "type": "video",
+            "videoDuration": "short",
+            "maxResults": max_results
+        }
+        headers = {
+            "Authorization": f"Bearer {self.access_token}",
+            "Accept": "application/json"
+        }
+        
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, params=params, headers=headers)
+            
+        if response.status_code != 200:
+            print(f"Failed to search YouTube shorts: {response.text}")
+            return []
+            
+        data = response.json()
+        shorts = []
+        
+        for item in data.get("items", []):
+            snippet = item.get("snippet", {})
+            shorts.append({
+                "videoId": item["id"]["videoId"],
+                "title": snippet.get("title", ""),
+                "channelTitle": snippet.get("channelTitle", "")
+            })
+            
+        return shorts

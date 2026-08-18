@@ -18,6 +18,7 @@ async def infer_interest_dna(
     DO NOT just match keywords. Look for the thread that connects them.
     If a user watches a Java meme, a coding interview joke, and a laptop review, the underlying interest is 'Software Engineering'.
     Use the provided behavioral weights and evidence to determine the strength of the interest.
+    CRITICAL: If a signal is negative (e.g. Swiped away quickly, score < 0), explicitly note that the user is NOT interested in those topics, and add them to contradicting_signals.
     """
     
     goal_context = ""

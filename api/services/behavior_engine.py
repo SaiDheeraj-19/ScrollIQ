@@ -9,11 +9,21 @@ def calculate_behavior_score(interaction: UnifiedInteraction) -> dict:
     score = 0.0
     evidence = []
     
-    # Watch percentage is a strong baseline (0.0 to 1.0)
-    score += (beh.watchPercent or 0.0) * 0.4
+    # Watch percentage/duration
+    # In the dynamic feed, we pass watchPercent as duration in seconds for simplicity.
+    watch_seconds = beh.watchPercent or 0.0
     
-    if beh.watchPercent and beh.watchPercent > 0.8:
-        evidence.append(f"High watch time ({int(beh.watchPercent * 100)}%)")
+    if watch_seconds > 0 and watch_seconds < 10.0:
+        # User swiped away quickly - strong negative signal (Not Interested)
+        score -= 0.8
+        evidence.append("Swiped away quickly (<10s)")
+    elif watch_seconds >= 30.0:
+        # User watched a substantial amount
+        score += 0.5
+        evidence.append("High watch time (>30s)")
+    elif watch_seconds > 0 and watch_seconds < 30.0:
+        score += 0.2
+        evidence.append(f"Partial watch ({int(watch_seconds)}s)")
         
     if beh.liked:
         score += 0.2

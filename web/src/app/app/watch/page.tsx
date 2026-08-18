@@ -1,15 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { RecommendationResponse } from "@/types";
 import { Loader2, Heart, Share2, MessageCircle, Bookmark, Zap } from "lucide-react";
 import Link from "next/link";
-import { recordScrollIQActivity, fetchCandidates } from "@/lib/api";
+import { recordScrollIQActivity, fetchDynamicFeed, fetchCandidates } from "@/lib/api";
 
 export default function WatchFeedPage() {
   const [recommendation, setRecommendation] = useState<RecommendationResponse | null>(null);
   const [feed, setFeed] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Watch Time Tracking
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const entryTimes = useRef<Record<string, number>>({});
+  const videoRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     const loadFeed = async () => {
@@ -25,8 +30,15 @@ export default function WatchFeedPage() {
           }
         }
         
-        // Fetch remaining feed
-        const candidates = await fetchCandidates();
+        // Try to fetch dynamic feed from YouTube if we have a direction
+        let candidates = [];
+        if (rec && rec.recommendation_direction) {
+          const ytToken = localStorage.getItem("scrolliq_youtube_token") || undefined;
+          candidates = await fetchDynamicFeed(rec.recommendation_direction, ytToken);
+        } else {
+          candidates = await fetchCandidates();
+        }
+        
         let combinedFeed = [];
         
         if (rec && rec.videoId) {
@@ -61,6 +73,47 @@ export default function WatchFeedPage() {
     loadFeed();
   }, []);
 
+  // Set up Intersection Observer for Watch Time tracking
+  useEffect(() => {
+    if (loading || feed.length === 0) return;
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const videoId = entry.target.getAttribute('data-video-id');
+        const title = entry.target.getAttribute('data-video-title');
+        if (!videoId || !title) return;
+
+        if (entry.isIntersecting) {
+          // Video just snapped into view - start timer
+          entryTimes.current[videoId] = Date.now();
+        } else {
+          // Video snapped out of view - calculate duration
+          const startTime = entryTimes.current[videoId];
+          if (startTime) {
+            const durationMs = Date.now() - startTime;
+            const durationSeconds = durationMs / 1000;
+            
+            // Delete to avoid double-logging
+            delete entryTimes.current[videoId];
+            
+            // Log watch duration to backend (tracked via watchPercent field for simplicity)
+            recordScrollIQActivity(videoId, title, "watched", durationSeconds)
+              .catch(err => console.error("Failed to log watch time:", err));
+          }
+        }
+      });
+    }, { threshold: 0.7 }); // Triggers when 70% of the video is visible
+
+    // Observe all video elements
+    Object.values(videoRefs.current).forEach(el => {
+      if (el) observerRef.current?.observe(el);
+    });
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, [loading, feed]);
+
   return (
     <div className="h-[calc(100vh-64px)] lg:h-screen w-full bg-slate-950 flex justify-center items-center overflow-hidden">
       
@@ -78,7 +131,13 @@ export default function WatchFeedPage() {
           <div className="relative w-full max-w-[400px] h-[90vh] bg-black rounded-3xl overflow-y-scroll snap-y snap-mandatory shadow-2xl border border-slate-800 hide-scrollbar">
             
             {feed.map((video, idx) => (
-              <div key={idx} className="w-full h-full snap-start snap-always relative flex items-center justify-center overflow-hidden">
+              <div 
+                key={idx} 
+                ref={el => videoRefs.current[video.videoId] = el}
+                data-video-id={video.videoId}
+                data-video-title={video.title}
+                className="w-full h-full snap-start snap-always relative flex items-center justify-center overflow-hidden"
+              >
                 
                 {/* Video Player */}
                 <iframe 

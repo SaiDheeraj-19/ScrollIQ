@@ -143,6 +143,11 @@ def score_candidate(
     for r in recent_interactions:
         if r.contentId == candidate.videoId or r.title.lower() == candidate.title.lower():
             novelty = -0.20  # Strong repetition penalty
+            
+    # Check for negative signals (Swiped away quickly)
+    for neg_signal in profile.contradicting_signals:
+        if neg_signal.lower() in candidate_title or neg_signal.lower() in candidate_cat:
+            novelty -= 0.40  # Massive penalty for recommending things they don't like
 
     # Hype Penalty
     hype_penalty = 0.0

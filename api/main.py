@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import reels, analysis, recommendations, candidates, integrations
+from routes import reels, analysis, recommendations, candidates, integrations, feed
 
 app = FastAPI(title="ScrollIQ API")
 
@@ -14,6 +14,7 @@ app.add_middleware(
 )
 
 app.include_router(reels.router, prefix="/api", tags=["reels"])
+app.include_router(feed.router, prefix="/api", tags=["feed"])
 app.include_router(analysis.router, prefix="/api", tags=["analysis"])
 app.include_router(recommendations.router, prefix="/api", tags=["recommendations"])
 app.include_router(candidates.router, prefix="/api", tags=["candidates"])

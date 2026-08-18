@@ -28,6 +28,19 @@ export async function fetchCandidates(): Promise<any[]> {
   return res.json();
 }
 
+export async function fetchDynamicFeed(query: string, youtubeToken?: string): Promise<any[]> {
+  const headers: Record<string, string> = {};
+  if (youtubeToken) {
+    headers["Authorization"] = `Bearer ${youtubeToken}`;
+  }
+  
+  const res = await fetch(`${API_BASE}/feed/youtube?query=${encodeURIComponent(query)}`, {
+    headers
+  });
+  if (!res.ok) return fetchCandidates(); // Fallback
+  return res.json();
+}
+
 export async function analyzeInteractions(
   interactions: UnifiedInteraction[],
   userGoal?: UserGoal | null
@@ -68,17 +81,30 @@ export async function getRecommendation(
 }
 
 // Record a ScrollIQ first-party interaction event
-export function recordScrollIQActivity(videoId: string, title: string, event: "opened" | "completed" | "skipped") {
+export async function recordScrollIQActivity(
+  videoId: string, 
+  title: string, 
+  action: "opened" | "watched" | "saved" | "shared",
+  durationSeconds?: number
+) {
+  // Convert standard activity to a UnifiedInteraction so it feeds into the main engine
+  const interaction: UnifiedInteraction = {
+    id: `scrolliq_${Date.now()}`,
+    source: "scrolliq",
+    contentType: "short",
+    contentId: videoId,
+    title: title,
+    behavior: {
+      liked: action === "saved",
+      saved: action === "saved",
+      shared: action === "shared",
+      watchPercent: durationSeconds // We pass duration as watchPercent for simplicity in backend
+    }
+  };
   try {
     const stored = localStorage.getItem("scrolliq_activity") || "[]";
     const activities = JSON.parse(stored);
-    activities.unshift({
-      videoId,
-      title,
-      event,
-      timestamp: new Date().toISOString(),
-      source: "scrolliq"
-    });
+    activities.unshift(interaction);
     // Keep last 20 events
     localStorage.setItem("scrolliq_activity", JSON.stringify(activities.slice(0, 20)));
   } catch {}
