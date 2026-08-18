@@ -20,7 +20,8 @@ async def analyze_multiple_interactions(interactions: List[UnifiedInteraction]) 
     
     user_prompt = "VIDEOS TO ANALYZE:\n\n"
     for idx, interaction in enumerate(interactions):
-        user_prompt += f"VIDEO [{idx}]:\nID: {interaction.id}\nTitle: {interaction.title}\nDescription: {interaction.description or ''}\nCategory: {interaction.category or ''}\n\n"
+        safe_desc = (interaction.description or '')[:300]
+        user_prompt += f"VIDEO [{idx}]:\nID: {interaction.id}\nTitle: {interaction.title}\nDescription: {safe_desc}\nCategory: {interaction.category or ''}\n\n"
     
     schema = {
         "results": [
