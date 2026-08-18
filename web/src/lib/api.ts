@@ -22,6 +22,12 @@ export async function fetchInteractions(youtubeToken?: string | null, datasetId:
   return res.json();
 }
 
+export async function fetchCandidates(): Promise<any[]> {
+  const res = await fetch(`${API_BASE}/candidates`);
+  if (!res.ok) return [];
+  return res.json();
+}
+
 export async function analyzeInteractions(
   interactions: UnifiedInteraction[],
   userGoal?: UserGoal | null
