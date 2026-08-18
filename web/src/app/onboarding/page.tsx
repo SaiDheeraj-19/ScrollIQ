@@ -215,7 +215,10 @@ function OnboardingContent() {
                       </span>
                     ) : (
                       <button
-                        onClick={() => window.location.href = "http://localhost:8000/api/integrations/youtube/login"}
+                        onClick={() => {
+                          const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+                          window.location.href = `${apiBase}/integrations/youtube/login`;
+                        }}
                         className="px-6 py-2 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-lg transition-colors"
                       >
                         Connect

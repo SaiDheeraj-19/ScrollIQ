@@ -70,7 +70,8 @@ export default function Home() {
   };
 
   const handleYoutubeLogin = () => {
-    window.location.href = "http://localhost:8000/api/integrations/youtube/login";
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+    window.location.href = `${apiBase}/integrations/youtube/login`;
   };
 
   const handleYoutubeDisconnect = () => {

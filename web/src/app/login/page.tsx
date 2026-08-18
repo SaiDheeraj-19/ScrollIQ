@@ -18,7 +18,8 @@ export default function LoginPage() {
 
   const handleGoogleLogin = () => {
     // The backend handles the Google OAuth flow and will redirect to /app on success.
-    window.location.href = "http://localhost:8000/api/integrations/youtube/login";
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+    window.location.href = `${apiBase}/integrations/youtube/login`;
   };
 
   return (
