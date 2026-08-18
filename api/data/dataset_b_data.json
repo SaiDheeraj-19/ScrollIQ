@@ -1,0 +1,70 @@
+[
+  {
+    "id": "b1",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "data_vid_1",
+    "title": "Stop using Excel for this! Learn Pandas in 60s 🐼",
+    "description": "Python Pandas is 100x faster than Excel for large datasets. Here is how to use groupby and merge. #python #datascience #pandas",
+    "category": "Tech",
+    "behavior": {
+      "watchPercent": 0.95,
+      "liked": true,
+      "saved": true,
+      "shared": false,
+      "rewatched": true,
+      "skipped": false
+    }
+  },
+  {
+    "id": "b2",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "data_vid_2",
+    "title": "SQL Window Functions explained simply 🪟",
+    "description": "Ever failed an SQL interview because of window functions? Here is ROW_NUMBER and RANK explained in 30 seconds. #sql #dataanalytics #interview",
+    "category": "Tech",
+    "behavior": {
+      "watchPercent": 0.85,
+      "liked": true,
+      "saved": false,
+      "shared": false,
+      "rewatched": false,
+      "skipped": false
+    }
+  },
+  {
+    "id": "b3",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "data_vid_3",
+    "title": "Day in the life of a Data Analyst 📊",
+    "description": "Lots of coffee, cleaning dirty data, and making Power BI dashboards look pretty. #dataanalyst #techlife #powerbi",
+    "category": "Career",
+    "behavior": {
+      "watchPercent": 0.70,
+      "liked": false,
+      "saved": false,
+      "shared": true,
+      "rewatched": false,
+      "skipped": false
+    }
+  },
+  {
+    "id": "b4",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "data_vid_4",
+    "title": "Why I switched from Tableau to Power BI 📈",
+    "description": "Both are great data visualization tools, but here is why Microsoft's ecosystem won me over. #dataviz #tableau #powerbi",
+    "category": "Tech",
+    "behavior": {
+      "watchPercent": 0.90,
+      "liked": true,
+      "saved": true,
+      "shared": false,
+      "rewatched": false,
+      "skipped": false
+    }
+  }
+]

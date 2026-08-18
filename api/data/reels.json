@@ -1,0 +1,138 @@
+[
+  {
+    "id": "demo_001",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "c_001",
+    "title": "Java developers at 3 AM",
+    "description": "When the NullPointerException hits different. #java #programming",
+    "category": "Java",
+    "behavior": {
+      "watchPercent": 0.95,
+      "liked": true,
+      "saved": false,
+      "rewatched": true,
+      "shared": false,
+      "skipped": false
+    }
+  },
+  {
+    "id": "demo_002",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "c_002",
+    "title": "Day in the life of a Software Engineer",
+    "description": "Coffee, standups, and fixing bugs. #softwareengineer #tech",
+    "category": "Career",
+    "behavior": {
+      "watchPercent": 0.85,
+      "liked": true,
+      "saved": true,
+      "rewatched": false,
+      "shared": false,
+      "skipped": false
+    }
+  },
+  {
+    "id": "demo_003",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "c_003",
+    "title": "How to fail a coding interview",
+    "description": "Forgetting how to write a for loop under pressure 😂 #codinginterview #dsa",
+    "category": "DSA",
+    "behavior": {
+      "watchPercent": 1.0,
+      "liked": true,
+      "saved": true,
+      "rewatched": true,
+      "shared": true,
+      "skipped": false
+    }
+  },
+  {
+    "id": "demo_004",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "c_004",
+    "title": "M3 Max MacBook Pro vs M2",
+    "description": "Is it worth the upgrade for developers? #apple #macbook #developer",
+    "category": "Hardware",
+    "behavior": {
+      "watchPercent": 0.70,
+      "liked": false,
+      "saved": false,
+      "rewatched": false,
+      "shared": false,
+      "skipped": false
+    }
+  },
+  {
+    "id": "demo_005",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "c_005",
+    "title": "Clutch moment in Valorant",
+    "description": "Bro thinks he's him #gaming #valorant",
+    "category": "Entertainment",
+    "behavior": {
+      "watchPercent": 0.20,
+      "liked": false,
+      "saved": false,
+      "rewatched": false,
+      "shared": false,
+      "skipped": true
+    }
+  },
+  {
+    "id": "demo_006",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "c_006",
+    "title": "10 AI Tools that will make you a MILLIONAIRE",
+    "description": "You need to use these AI tools right now before it's too late! #ai #money",
+    "category": "AI",
+    "behavior": {
+      "watchPercent": 0.35,
+      "liked": false,
+      "saved": false,
+      "rewatched": false,
+      "shared": false,
+      "skipped": true
+    }
+  },
+  {
+    "id": "demo_007",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "c_007",
+    "title": "OpenAI drops new model",
+    "description": "The new reasoning model is crazy. #tech #news",
+    "category": "Tech News",
+    "behavior": {
+      "watchPercent": 0.80,
+      "liked": true,
+      "saved": false,
+      "rewatched": false,
+      "shared": false,
+      "skipped": false
+    }
+  },
+  {
+    "id": "demo_008",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "c_008",
+    "title": "CSS is awesome",
+    "description": "Trying to center a div in 2024. #webdev #programming",
+    "category": "Programming",
+    "behavior": {
+      "watchPercent": 0.90,
+      "liked": true,
+      "saved": false,
+      "rewatched": true,
+      "shared": false,
+      "skipped": false
+    }
+  }
+]

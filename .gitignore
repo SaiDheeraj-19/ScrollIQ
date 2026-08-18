@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.env
+.env.*
+!.env.example
+venv/
+env/
+.venv/
+
+# Secrets — NEVER commit these
+api/.env
+api/.env.*
+*.pem
+*.key
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.turbo/
+web/.next/
+web/node_modules/
+web/out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Pytest
+.pytest_cache/
+*.log
+
+# Coverage
+htmlcov/
+.coverage

@@ -1,0 +1,70 @@
+[
+  {
+    "id": "c1",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "cloud_vid_1",
+    "title": "Deploying your first app on AWS in 2 minutes ☁️",
+    "description": "Stop using local servers. Let's deploy a container to AWS ECS using Fargate. It scales automatically! #aws #cloud #devops",
+    "category": "Tech",
+    "behavior": {
+      "watchPercent": 0.90,
+      "liked": true,
+      "saved": true,
+      "shared": false,
+      "rewatched": false,
+      "skipped": false
+    }
+  },
+  {
+    "id": "c2",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "cloud_vid_2",
+    "title": "Docker vs Kubernetes explained with Lego 🧱",
+    "description": "If Docker is the lego block, Kubernetes is the master builder. Simple explanation of container orchestration. #kubernetes #k8s #docker",
+    "category": "Tech",
+    "behavior": {
+      "watchPercent": 0.98,
+      "liked": true,
+      "saved": true,
+      "shared": true,
+      "rewatched": true,
+      "skipped": false
+    }
+  },
+  {
+    "id": "c3",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "cloud_vid_3",
+    "title": "Why you NEED to learn Terraform in 2026 🏗️",
+    "description": "Infrastructure as code is the future. Stop clicking around the AWS console and write declarative Terraform configs instead. #terraform #iac #devops",
+    "category": "Tech",
+    "behavior": {
+      "watchPercent": 0.75,
+      "liked": true,
+      "saved": false,
+      "shared": false,
+      "rewatched": false,
+      "skipped": false
+    }
+  },
+  {
+    "id": "c4",
+    "source": "demo",
+    "contentType": "reel",
+    "contentId": "cloud_vid_4",
+    "title": "Day in the life of a DevOps Engineer 🚀",
+    "description": "Fixing CI/CD pipelines, looking at Grafana dashboards, and wondering why the pod crashed. #devops #techlife #sre",
+    "category": "Career",
+    "behavior": {
+      "watchPercent": 0.85,
+      "liked": true,
+      "saved": false,
+      "shared": false,
+      "rewatched": false,
+      "skipped": false
+    }
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "cand_001",
+    "videoId": "V74l_zS1x8E",
+    "title": "Introduction to Java Streams",
+    "description": "Learn how to use the Streams API in Java 8+ for functional programming.",
+    "category": "Java",
+    "difficulty": "Intermediate",
+    "educationalValue": 0.9,
+    "hypeScore": 0.1
+  },
+  {
+    "id": "cand_002",
+    "videoId": "l9nh1l8ZIJQ",
+    "title": "Top 10 Java Frameworks to learn in 2024",
+    "description": "Spring, Hibernate, Micronaut - what should you learn? #java",
+    "category": "Java",
+    "difficulty": "Beginner",
+    "educationalValue": 0.7,
+    "hypeScore": 0.5
+  },
+  {
+    "id": "cand_003",
+    "videoId": "OQ5jsbhAv_M",
+    "title": "Mastering Dynamic Programming in 10 Minutes",
+    "description": "The secret to solving any DP problem. #dsa #leetcode",
+    "category": "DSA",
+    "difficulty": "Advanced",
+    "educationalValue": 0.8,
+    "hypeScore": 0.4
+  },
+  {
+    "id": "cand_004",
+    "videoId": "ZqEaaCEYBZM",
+    "title": "System Design: WhatsApp Architecture",
+    "description": "How does WhatsApp scale to billions of users? #hld #systemdesign",
+    "category": "HLD",
+    "difficulty": "Advanced",
+    "educationalValue": 0.95,
+    "hypeScore": 0.2
+  },
+  {
+    "id": "cand_005",
+    "videoId": "dQw4w9WgXcQ",
+    "title": "You won't believe what AI can do now (MILLIONAIRE SECRETS)",
+    "description": "Use ChatGPT to generate passive income overnight!! #ai #money",
+    "category": "AI",
+    "difficulty": "Beginner",
+    "educationalValue": 0.1,
+    "hypeScore": 1.0
+  },
+  {
+    "id": "cand_006",
+    "videoId": "k1RI5locZE4",
+    "title": "Learn AWS in 2 hours",
+    "description": "Complete beginner's guide to Amazon Web Services.",
+    "category": "Cloud",
+    "difficulty": "Beginner",
+    "educationalValue": 0.85,
+    "hypeScore": 0.3
+  },
+  {
+    "id": "cand_007",
+    "videoId": "jNQXAC9IVRw",
+    "title": "Why programmers are getting FIRED in 2024 (Scary)",
+    "description": "Is the tech industry dying? #tech #layoffs",
+    "category": "Tech News",
+    "difficulty": "Beginner",
+    "educationalValue": 0.2,
+    "hypeScore": 0.95
+  },
+  {
+    "id": "cand_008",
+    "videoId": "X48VuDVv0do",
+    "title": "Understanding Kubernetes Architecture",
+    "description": "Nodes, Pods, and Control Plane explained simply.",
+    "category": "DevOps",
+    "difficulty": "Intermediate",
+    "educationalValue": 0.9,
+    "hypeScore": 0.2
+  },
+  {
+    "id": "cand_009",
+    "videoId": "9bZkp7q19f0",
+    "title": "Day in the life of a FAANG engineer",
+    "description": "Eating free food and drinking coffee. #faang #tech",
+    "category": "Career",
+    "difficulty": "Beginner",
+    "educationalValue": 0.3,
+    "hypeScore": 0.8
+  },
+  {
+    "id": "cand_010",
+    "videoId": "C8LgvuEBraI",
+    "title": "Golang vs Rust: Which is better for backend?",
+    "description": "Comparing performance and developer experience.",
+    "category": "Backend",
+    "difficulty": "Intermediate",
+    "educationalValue": 0.8,
+    "hypeScore": 0.5
+  }
+]
