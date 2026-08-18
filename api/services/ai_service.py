@@ -32,7 +32,7 @@ async def get_structured_response(system_prompt: str, user_prompt: str, response
                 messages=messages,
                 response_format={"type": "json_object"},
                 temperature=0.1,
-                max_tokens=2000
+                max_tokens=8000
             )
             print("Groq API succeeded.")
             return json.loads(response.choices[0].message.content)
@@ -52,7 +52,7 @@ async def get_structured_response(system_prompt: str, user_prompt: str, response
                 messages=messages,
                 response_format={"type": "json_object"},
                 temperature=0.1,
-                max_tokens=2000
+                max_tokens=8000
             )
             return json.loads(response.choices[0].message.content)
         except Exception as e:
