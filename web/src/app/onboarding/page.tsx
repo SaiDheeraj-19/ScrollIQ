@@ -16,7 +16,9 @@ const GOAL_PRESETS = [
   { label: "Explore Technology", icon: "🌐", categories: ["Technology", "Hardware", "Innovation"] },
 ];
 
-export default function OnboardingPage() {
+import { Suspense } from "react";
+
+function OnboardingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [step, setStep] = useState(1);
@@ -309,5 +311,13 @@ export default function OnboardingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center text-white font-sans">Loading...</div>}>
+      <OnboardingContent />
+    </Suspense>
   );
 }
