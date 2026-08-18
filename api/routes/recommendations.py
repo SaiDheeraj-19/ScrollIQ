@@ -36,6 +36,11 @@ async def get_recommendation(request: RecommendRequest):
         
         print(f"Direction: {target_direction} | Goal Alignment: {goal_alignment.label} ({goal_alignment.score:.2f})")
         
+        # OVERRIDE: If behavior completely mismatches the goal, forcefully steer them back to their goal.
+        if user_goal and user_goal.goal and (goal_alignment.mismatch_detected or goal_alignment.score < 0.4):
+            print(f"MISMATCH DETECTED: Overriding recommendation direction to strict goal: {user_goal.goal}")
+            target_direction = user_goal.goal
+        
         candidates = []
         if request.providerToken:
             import httpx
@@ -43,7 +48,7 @@ async def get_recommendation(request: RecommendRequest):
             try:
                 # Search YouTube using the direction + goal keywords for better candidates
                 search_query = target_direction
-                if user_goal and user_goal.goal:
+                if user_goal and user_goal.goal and user_goal.goal.lower() not in target_direction.lower():
                     search_query = f"{target_direction} {user_goal.goal}"
                     
                 url = "https://www.googleapis.com/youtube/v3/search"
